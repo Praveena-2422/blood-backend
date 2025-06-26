@@ -1,0 +1,52 @@
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const logger = require('./config/logger');
+const userRoutes = require('./routes/userRoutes');
+const bloodRequestRoutes = require('./routes/bloodRequestRoutes');
+const donorRoutes = require('./routes/donorRoutes');
+const campRoutes = require('./routes/campRoutes');
+
+// Log startup
+logger.info('Starting BOSS Backend Server');
+logger.info('Environment:', process.env.NODE_ENV || 'development');
+logger.info('MongoDB URI:', process.env.MONGODB_URI || 'mongodb://localhost:27017/boss-backend');
+logger.info('Server Port:', process.env.PORT || 3000);
+
+const app = express();
+
+// Middleware
+app.use(cors({
+  origin: 'http://localhost:3001',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+app.use(express.json());
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/boss-backend')
+    .then(() => logger.info('Connected to MongoDB'))
+    .catch(err => logger.error('MongoDB connection error:', err));
+
+// Routes
+app.use('/api/users', userRoutes);
+app.use('/api/requester', bloodRequestRoutes);
+app.use('/api/donors', donorRoutes);
+app.use('/api/camps', campRoutes);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    logger.info(`Server is running on port ${PORT}`);
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    logger.error('Error in request:', {
+        path: req.path,
+        method: req.method,
+        error: err.message,
+        stack: err.stack
+    });
+    res.status(500).json({ error: 'Internal Server Error' });
+});
