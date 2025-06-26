@@ -17,11 +17,7 @@ logger.info('Server Port:', process.env.PORT || 3000);
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin: 'http://localhost:3001',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
