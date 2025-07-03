@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const campSchema = new mongoose.Schema({
     campId: {
         type: String,
-        // unique: true
+        unique: true
     },
     title: {
         type: String,
@@ -13,14 +13,21 @@ const campSchema = new mongoose.Schema({
     organizer: {
         type: String
     },
-    date: {
-        type: Date
+    fromdate: {
+        type: Date,
+        required: true
+    },
+    todate: {
+        type: Date,
+        required: true
     },
     time: {
-        type: String
+        type: String,
+        required: true
     },
     units: {
-        type: Number
+        type: Number,
+        required: true
     },
     donors: {
         type: Number
@@ -29,8 +36,28 @@ const campSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    contact: {
+    state: {
+        type: String,
+        required: true
+    },
+    city: {
+        type: String,
+        required: true
+    },
+    address: {
         type: String
+    },
+    pincode: {
+        type: String,
+        required: true
+    },
+    contact: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
     },
     status: {
         type: String,

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { addCamp, updateCamp, deleteCamp } = require('../controllers/campController');
 const Camp = require('../models/Camp');
-const { verifyToken } = require('../middleware/auth');
 
 // Get all camps
 router.get('/', async (req, res) => {
@@ -47,77 +47,14 @@ router.get('/:id', async (req, res) => {
 function generateUniqueId() {
     return 'CAMP-' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5).toUpperCase();
 }
-// Create new camp
-router.post('/', async (req, res) => {
-    try {
-        console.log('Creating new camp', req.body);
-        const campId = generateUniqueId(); // Implement your ID generation logic
+// Add new camp using controller
+router.post('/addcamp', addCamp);
 
-        const campData = {
-            ...req.body,
-            campId: campId
-        };
+// Update camp using controller
+router.put('/updatecamp/:id', updateCamp);
 
-        const camp = new Camp(campData);
-        await camp.save();
-        res.status(201).json({
-
-            message: 'Camp created successfully',
-            camp
-        });
-    } catch (error) {
-        console.log('Error creating camp', error);
-        res.status(400).json({
-            message: 'Error creating camp',
-            error: error.message
-        });
-    }
-});
-
-// Update camp
-router.put('/:id', async (req, res) => {
-    try {
-        const camp = await Camp.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
-        );
-        if (!camp) {
-            return res.status(404).json({
-                message: 'Camp not found'
-            });
-        }
-        res.status(200).json({
-            message: 'Camp updated successfully',
-            camp
-        });
-    } catch (error) {
-        res.status(400).json({
-            message: 'Error updating camp',
-            error: error.message
-        });
-    }
-});
-
-// Delete camp
-router.delete('/:id', async (req, res) => {
-    try {
-        const camp = await Camp.findByIdAndDelete(req.params.id);
-        if (!camp) {
-            return res.status(404).json({
-                message: 'Camp not found'
-            });
-        }
-        res.status(200).json({
-            message: 'Camp deleted successfully'
-        });
-    } catch (error) {
-        res.status(400).json({
-            message: 'Error deleting camp',
-            error: error.message
-        });
-    }
-});
+// Delete camp using controller
+router.delete('/deletecamp/:id', deleteCamp);
 
 // Get camp statistics
 router.get('/statistics', async (req, res) => {
