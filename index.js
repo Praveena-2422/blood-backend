@@ -13,7 +13,7 @@ const campRoutes = require('./routes/campRoutes');
 logger.info('Starting BOSS Backend Server');
 logger.info('Environment:', process.env.NODE_ENV || 'development');
 logger.info('MongoDB URI:', process.env.MONGO_URI || 'mongodb://localhost:27017/boss-backend');
-logger.info('Server Port:', process.env.PORT || 3000);
+logger.info('Server Port:', process.env.PORT || 4000);
 
 const app = express();
 
@@ -32,7 +32,7 @@ app.use('/api/camps', campRoutes);
 // app.use('/api/requester', bloodRequestRoutes);
 // app.use('/api/camps', campRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
     logger.info(`Server is running on port ${PORT}`);
 });

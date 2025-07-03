@@ -9,6 +9,7 @@ const campRoutes = require('../routes/campRoutes');
 router.post('/login', userController.login);
 router.post('/register', userController.register);
 router.post('/donorLogin', userController.donorLogin);
+router.get('/getAllUser', userController.getAllUser);
 
 // Protected routes
 router.get('/getuser', authMiddleware, userController.getUser);

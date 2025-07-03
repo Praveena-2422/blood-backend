@@ -5,6 +5,23 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+// Get all users (donors)
+exports.getAllUser = async (req, res) => {
+    try {
+        const donors = await Donor.find();
+        res.status(200).json({
+            success: true,
+            data: donors
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error fetching users',
+            error: error.message
+        });
+    }
+};
+
 // OTP verification endpoint
 exports.donorLogin = async (req, res) => {
     try {
