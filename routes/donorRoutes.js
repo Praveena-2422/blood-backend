@@ -38,11 +38,12 @@ router.get('/me', verifyToken, async (req, res) => {
         dateOfBirth: donor.dateOfBirth,
         gender: donor.gender,
         bloodGroup: donor.bloodGroup,
-        height: donor.height,
-        weight: donor.weight,
+        heightCm: donor.heightCm,
+        weightKg: donor.weightKg,
         lastDonationDate: donor.lastDonationDate,
         eligibleToDonate: donor.eligibleToDonate,
         state: donor.state,
+        district: donor.district,
         city: donor.city,
         area: donor.area,
         pinCode: donor.pinCode,
@@ -50,11 +51,6 @@ router.get('/me', verifyToken, async (req, res) => {
         coordinates: donor.coordinates,
         healthIssues: donor.healthIssues,
         emergencyContactNumber: donor.emergencyContactNumber,
-        profession: donor.profession,
-        totalDonations: donor.totalDonations,
-        about: donor.about,
-        socialMediaLink: donor.socialMediaLink,
-        termsAccepted: donor.termsAccepted,
         createdAt: donor.createdAt,
         updatedAt: donor.updatedAt
       }
@@ -70,41 +66,34 @@ router.get('/me', verifyToken, async (req, res) => {
 const { body, validationResult } = require('express-validator');
 
 // Register donor route
-router.post('/register-donor', 
-  upload.single('idProof'),
+router.post('/register', 
   [
     // Personal Information validation
     body('fullName').trim().notEmpty().withMessage('Full name is required'),
     body('mobileNumber').trim().notEmpty().withMessage('Mobile number is required'),
     body('email').optional().isEmail().withMessage('Invalid email format'),
     body('dateOfBirth').isDate().withMessage('Invalid date of birth format'),
-    body('gender').trim().notEmpty().withMessage('Gender is required'),
-    body('bloodGroup').trim().notEmpty().withMessage('Blood group is required'),
-    body('height').isNumeric().withMessage('Height must be a number'),
-    body('weight').isNumeric().withMessage('Weight must be a number'),
+    body('gender').trim().notEmpty().withMessage('Gender is required').isIn(['Male', 'Female', 'Other']),
+    body('bloodGroup').trim().notEmpty().withMessage('Blood group is required').isIn(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
+    body('heightCm').isNumeric().withMessage('Height must be a number'),
+    body('weightKg').isNumeric().withMessage('Weight must be a number'),
 
     // Blood Details validation
-    body('lastDonationDate').isDate().withMessage('Invalid last donation date format'),
+    body('lastDonationDate').optional().isDate().withMessage('Invalid last donation date format'),
     body('eligibleToDonate').isBoolean().withMessage('Eligible to donate must be a boolean value'),
 
     // Location Information validation
     body('state').trim().notEmpty().withMessage('State is required'),
+    body('district').trim().notEmpty().withMessage('District is required'),
     body('city').trim().notEmpty().withMessage('City is required'),
     body('area').trim().notEmpty().withMessage('Area is required'),
     body('pinCode').trim().notEmpty().withMessage('Pin code is required'),
-    body('preferredRadius').isNumeric().withMessage('Preferred radius must be a number'),
 
     // Additional Information validation
+    body('existingHealthIssues').trim().notEmpty().withMessage('Health issues status is required').isIn(['Yes', 'No']),
     body('emergencyContactNumber').trim().notEmpty().withMessage('Emergency contact number is required'),
-    body('healthIssues.hasIssues').isBoolean().withMessage('Health issues status is required'),
-    body('healthIssues.details').optional().trim(),
+    body('agreedToTerms').isBoolean().withMessage('Terms acceptance is required'),
 
-    // Other Information validation
-    body('profession').optional().trim(),
-    body('totalDonations').isNumeric().withMessage('Total donations must be a number'),
-    body('about').optional().trim(),
-    body('socialMediaLink').optional().trim(),
-    body('termsAccepted').isBoolean().withMessage('Terms and conditions must be accepted')
   ],
   async (req, res) => {
     try {

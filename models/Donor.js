@@ -31,23 +31,18 @@ const donorSchema = new Schema({
     required: true,
     enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
   },
-  height: {
+  heightCm: {
     type: Number,
-    required: true,
-    min: 100,
-    max: 300
+    required: true
   },
-  weight: {
+  weightKg: {
     type: Number,
-    required: true,
-    min: 30,
-    max: 300
+    required: true
   },
 
   // Blood Details
   lastDonationDate: {
-    type: Date,
-    required: true
+    type: Date
   },
   eligibleToDonate: {
     type: Boolean,
@@ -75,56 +70,30 @@ const donorSchema = new Schema({
     required: true,
     trim: true
   },
-  preferredRadius: {
-    type: Number,
-    required: true,
-    min: 1,
-    max: 100
-  },
-  coordinates: {
-    latitude: Number,
-    longitude: Number
-  },
 
   // Additional Information
-  idProof: {
-    type: String
-  },
-  healthIssues: {
-    hasIssues: {
-      type: Boolean,
-      required: true
-    },
-    details: String
+  existingHealthIssues: {
+    type: String,
+    required: true,
+    enum: ['Yes', 'No']
   },
   emergencyContactNumber: {
     type: String,
     required: true,
     trim: true
   },
-
-  // Other Information
-  profession: {
-    type: String,
-    trim: true
-  },
-  totalDonations: {
-    type: Number,
-    default: 0
-  },
-  about: {
-    type: String,
-    trim: true
-  },
-  socialMediaLink: {
-    type: String,
-    trim: true
-  },
-  termsAccepted: {
+  agreedToTerms: {
     type: Boolean,
     required: true
   },
-
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  },
   // System Fields
   createdAt: {
     type: Date,
