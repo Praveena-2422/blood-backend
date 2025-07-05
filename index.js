@@ -5,6 +5,8 @@ const cors = require('cors');
 const logger = require('./config/logger');
 const userRoutes = require('./routes/userRoutes');
 const campRoutes = require('./routes/campRoutes');
+const donorRoutes = require('./routes/donorRoutes');
+
 // const bloodRequestRoutes = require('./routes/bloodRequestRoutes');
 // const donorRoutes = require('./routes/donorRoutes');
 // const campRoutes = require('./routes/campRoutes');

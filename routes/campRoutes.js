@@ -6,10 +6,8 @@ const Camp = require('../models/Camp');
 // Get all camps
 router.get('/', async (req, res) => {
     try {
-        console.log('Fetching camps from database');
         const camps = await Camp.find()
             .sort({ date: -1 });
-        console.log('Found camps:', camps.length);
         res.status(200).json({
             message: 'Camps retrieved successfully',
             camps
@@ -32,7 +30,6 @@ router.get('/:id', async (req, res) => {
             });
         }
         res.status(200).json({
-            message: 'Camp retrieved successfully',
             camp
         });
     } catch (error) {
@@ -43,17 +40,13 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Example ID generator function
-function generateUniqueId() {
-    return 'CAMP-' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5).toUpperCase();
-}
-// Add new camp using controller
+// Add new camp
 router.post('/addcamp', addCamp);
 
-// Update camp using controller
+// Update camp
 router.put('/updatecamp/:id', updateCamp);
 
-// Delete camp using controller
+// Delete camp
 router.delete('/deletecamp/:id', deleteCamp);
 
 // Get camp statistics
