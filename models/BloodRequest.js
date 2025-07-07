@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 
 const bloodRequestSchema = new mongoose.Schema({
+  requesterDetails: {
+    requesterId: { type: String, required: true },
+    requesterName: { type: String, required: true },
+    requesterMobile: { type: String, required: true },
+    requesterEmail: { type: String }
+  },
   personalDetails: {
     fullName: { type: String, required: true },
     mobileNumber: { type: String, required: true },

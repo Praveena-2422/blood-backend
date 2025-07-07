@@ -6,10 +6,7 @@ const logger = require('./config/logger');
 const userRoutes = require('./routes/userRoutes');
 const campRoutes = require('./routes/campRoutes');
 const donorRoutes = require('./routes/donorRoutes');
-
-// const bloodRequestRoutes = require('./routes/bloodRequestRoutes');
-// const donorRoutes = require('./routes/donorRoutes');
-// const campRoutes = require('./routes/campRoutes');
+const bloodRequestRoutes = require('./routes/bloodRequestRoutes');
 
 // Log startup
 logger.info('Starting BOSS Backend Server');
@@ -31,8 +28,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/boss-backen
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/camps', campRoutes);
-// app.use('/api/requester', bloodRequestRoutes);
-// app.use('/api/camps', campRoutes);
+app.use('/api/requester', bloodRequestRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
